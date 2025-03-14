@@ -79,17 +79,30 @@ res.json({success:true, products})
 //function for removing product
 const removeProduct = async (req,res)=>{
 
+    try {
+        
+        await productModel.findByIdAndDelete(req.body.id)
+        res.json({success:true , message:"Product Removed"})
 
-
-    
+    } catch (error) {
+        console.log(error);
+        res.json({success:false, message:"Something went wrong"})
+    }
 }
 
 //function for single product info
 const singleProduct = async (req,res)=>{
+    try {
+        const {productId} = req.body
+        const product = await productModel.findById(productId)
+        res.json({ success: false, product})
+    } catch (error) {
+        
+        console.log(error);
+        res.json({success:false, message:"Something went wrong"})
+        
+    }
 
-
-
-    
 }
 
 export {listProducts, addProduct, removeProduct, singleProduct}
